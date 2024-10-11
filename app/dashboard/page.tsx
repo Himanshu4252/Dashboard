@@ -1,6 +1,7 @@
 "use client"
 import React, {useState} from 'react'
 import { useRouter } from 'next/navigation';
+import supabase from "@/lib/supabase"
 
 const Dashboard = () => {
     const[menu, setMenu] = useState<boolean>(false);
@@ -12,6 +13,10 @@ const Dashboard = () => {
     const handleHomeClick = () =>{
         router.push('/')
     }
+    const handleSignOut = async() =>{
+        const { error } = await supabase.auth.signOut()
+        router.push('/');
+    }
   return (
     <>
     <div className='flex items-center justify-between border-2 h-[10vh] border-solid px-[15px]'>
@@ -22,7 +27,7 @@ const Dashboard = () => {
                 <ul className='flex flex-col justify-around h-full w-full items-center' >
                     <li onClick={handleHomeClick} className= 'cursor-pointer w-full text-center hover:bg-[#b9b9b9]'>Homepage</li>
                     <li className= ' cursor-pointer w-full text-center hover:bg-[#b9b9b9]'>Dark Mode</li>
-                    <li className= ' cursor-pointer w-full text-center hover:bg-[#b9b9b9]'>Sign out</li>
+                    <li className= ' cursor-pointer w-full text-center hover:bg-[#b9b9b9]' onClick={handleSignOut}>Sign out</li>
                 </ul>
             </div>) :(null)}
         </div>

@@ -1,5 +1,5 @@
 "use client"
-import react, {FormEvent, useState, ChangeEvent} from "react"
+import {FormEvent, useState, ChangeEvent} from "react"
 import { useRouter } from "next/navigation";
 import Axios from 'axios';
 interface User{
@@ -13,7 +13,7 @@ interface User{
 const Signup: React.FC =() =>{
     const [BtnText, setBtnText] = useState("Sign Up");
     const router = useRouter();
-    const [alertDiv, setAlertDiv] = useState<Boolean>(false);
+    const [alertDiv, setAlertDiv] = useState<boolean>(false);
     const [user, setUser] = useState<User>({
        userName: "",
        email: "",
@@ -32,7 +32,8 @@ const Signup: React.FC =() =>{
         event.preventDefault();
         setBtnText("Processing...");
         try {
-            const response = await Axios.post("/api/users/signup", user);
+            const response = await Axios.post("http://localhost:3000/api/users/signup", user);
+            console.log(response);
             router.push("/login");
             
         } 
