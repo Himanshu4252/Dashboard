@@ -12,13 +12,14 @@ interface User{
 const Login:React.FC = () =>{
     const [BtnText, setBtnText] = useState("Log In");
     const router = useRouter();
-    const [alertDiv, setAlertDiv] = useState("alertHider");
+    const [alertDiv, setAlertDiv] = useState<boolean>(false);
+    const [alertMessage, setAlertMessage] = useState<string>('');
     const [user, setUser] = useState<User>({
        email: "",
        password :""
     });
     const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-        setAlertDiv("alertHider");
+        setAlertDiv(false);
         const { name, value } = event.target;
         setUser(prevUser => ({ ...prevUser, [name]: value }));
     };
@@ -31,11 +32,14 @@ const Login:React.FC = () =>{
       router.push("/dashboard");
     } catch (error: any) {
       setBtnText("Login");
-      setAlertDiv("failAlertDiv");
+      setAlertMessage(error.response.data.message);
+      setAlertDiv(true);
+      
     }
     }
     return (
-        <div className="w-full h-screen flex items-center justify-center ">
+        <div className="w-full h-screen flex items-center justify-center relative">
+            {alertDiv ?(<div className="h-[10vh] flex items-center justify-center bg-red-300 self-start text-red-600 absolute border-2 border-red-600 w-[90vw]">{alertMessage}</div>) : (null)}
             <form>
             <div className="border-2 border-black rounded-[15px] h-[280px] w-[300px] flex flex-col items-center justify-around">
                 <h1 className="text-[22px] font-bold">Log In</h1>
