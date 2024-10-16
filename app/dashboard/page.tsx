@@ -18,6 +18,7 @@ const Dashboard = () => {
         const { error } = await supabase.auth.signOut()
         router.push('/');
     }
+   
   return (
     <>
     <div className='flex items-center justify-between border-2 h-[10vh] border-solid px-[15px]'>

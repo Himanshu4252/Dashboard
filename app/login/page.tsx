@@ -1,7 +1,7 @@
 "use client"
 import react, { FormEvent, useState, ChangeEvent } from "react"
+import supabase from "@/lib/supabase";
 import { useRouter } from "next/navigation";
-import Axios from 'axios';
 
 
 interface User{
@@ -18,6 +18,8 @@ const Login:React.FC = () =>{
        email: "",
        password :""
     });
+
+
     const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
         setAlertDiv(false);
         const { name, value } = event.target;
@@ -28,11 +30,20 @@ const Login:React.FC = () =>{
         event.preventDefault();
     setBtnText("Processing...");
     try {
-      const response = await Axios.post("/api/users/login", user);
-      router.push("/dashboard");
-    } catch (error: any) {
-      setBtnText("Login");
-      setAlertMessage(error.response.data.message);
+    const {data ,error} = await supabase.auth.signInWithPassword(user);
+        if(error){
+           setAlertDiv(true);
+           setAlertMessage(error.message);
+           setBtnText("Log in");
+        }
+        if(data?.user){
+        router.push('/dashboard');
+        }
+        // const userdata = await supabase.auth.getUser();
+      
+    } catch (error) {
+      setBtnText("Log in");
+       setAlertMessage(Error.name);
       setAlertDiv(true);
       
     }
