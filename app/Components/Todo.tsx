@@ -1,44 +1,47 @@
 'use client'
 import React, { useState, useEffect, FormEvent, ChangeEvent } from 'react';
-import supabase from '@/lib/supabase'; // Import your Supabase client
-import { NextResponse } from 'next/server';
+import supabase from '@/lib/supabase'; 
 
 
 const Todo = () => {
-
-  const [userId, setUserId] = useState<string | null>(null);
+  
   const [input, setInput] = useState<string>('');
-  const [tasks, setTasks] = useState<string | null>();
+  const [userEmail, setUserEmail] = useState<string>('');
+  const [tasks, setTasks] = useState<string []>([]);
   const [selectedTasks, setSelectedTasks] = useState<number[]>([]);
 
+
   const fetchTasks = async () => {
+    if(userEmail){
     const { data, error } = await supabase
       .from('users')
       .select('tasks')
-      .eq('id', userId)
+      .eq('email', userEmail)
       .single();
-        if (error) {
-            console.error('Failed to fetch tasks:', error);
+      if(error){
+        console.log(error);
+      }
+
+        const tasksFetched = await data?.tasks;
+        if(tasksFetched){
+          setTasks(tasksFetched);
         }
+      }
+             
   };
 
-  useEffect(() => {
-    const currentuser = async() =>{
-        const {data, error} = await supabase.auth.getUser();
-        if(error){
-          console.log(error.message)
-        }
-        if(data?.user){
-          const foundUser = data.user.id;
-          setUserId(foundUser);
-          console.log("use effect found the user id - " + userId)
-        }
+  const emailFetcher = async() =>{
+    const emailUser = localStorage.getItem('userEmail');
+    if(emailUser){
+      setUserEmail(emailUser);
     }
-    currentuser();
 
-  //   // fetchTasks();
-  
-  }, []);
+  }
+
+  useEffect(() => {
+   emailFetcher();
+   fetchTasks();
+  }, [userEmail]);
 
   // // Handle input change
   const handleInput = (event: ChangeEvent<HTMLInputElement>) => {
@@ -48,32 +51,25 @@ const Todo = () => {
   // // Add a new task
   const handleAddTask = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-  //   if (!input) return;
-  //   try {
-  //     const {data, error: fetchError} = await supabase.from('users').select('userName').eq('id',  userId);
-  //     if(fetchError){
-  //       console.log("error encountered while trying to fetch tasks"+ fetchError.message);
-  //     }
-  //     const currentTasks = "";
+    const currentTasks = tasks;
+    const updatedTasks = [...currentTasks, input];
+    const { error: updateError } = await supabase
+    .from('users')
+    .update({ tasks: updatedTasks })
+    .eq('email', userEmail);
 
-  //     console.log("current data");
-  //     console.log(data)
-  //     const updatedTasks = [...currentTasks, input];
-  //     console.log("updated tasks "+updatedTasks);
-  //     try {
-  //       const res = await supabase.from('users').update({tasks : updatedTasks}).eq('id', userId);
-  //       console.log("result of saving the tasks "+res);
-  //     } catch (error) {
-  //       console.log("error in saving the tasks in the databse"+error)
-  //     }
-  //   } catch (error) {
-  //     return NextResponse.json({message: "failed to fetch the tasks", error}, {status: 400});
-      
-  //   }
-    
-  //   return { success: true, message: 'Task added successfully' };
-
+    if(updateError){
+      console.log(updateError.message);
+    }
+    setInput('');
   };
+
+
+  useEffect(() => {
+    fetchTasks();
+   }, [handleAddTask]);
+
+  
 
   // Handle task selection
   const handleTaskSelection = (taskId: number) => {
@@ -83,26 +79,16 @@ const Todo = () => {
         : [...prevSelected, taskId]
     );
   };
-
+  
   // Complete selected tasks
   const handleComplete = async () => {
-    // try {
-    //   await Promise.all(
-    //     selectedTasks.map(async (taskId) => {
-    //       // Here you will have to use the index or some unique identifier to remove tasks
-    //       await supabase
-    //         .from('users')
-    //         .update({ tasks: supabase.raw(`array_remove(tasks, '${tasks[taskId].text}')`) }) // Remove the task from the tasks array
-    //         .eq('id', YOUR_USER_ID); // Replace with actual user ID
-    //     })
-    //   );
-
-  //     // Fetch the updated tasks list
-  //     fetchTasks();
-  //     setSelectedTasks([]);
-  //   } catch (error) {
-  //     console.error('Failed to delete tasks:', error);
-  //   }
+    const updatedTasks = tasks.filter((task, index) => !selectedTasks.includes(index));
+    const { error: updateError } = await supabase
+    .from('users')
+    .update({ tasks: updatedTasks })
+    .eq('email', userEmail);
+    setTasks(updatedTasks);
+    setSelectedTasks([]);   
   };
 
   return (
@@ -124,19 +110,23 @@ const Todo = () => {
       </form>
       {/* Tasks list */}
       <div className="flex flex-col gap-2 overflow-y-auto">
-        {/* {tasks.map((task) => (
-          <div
-            key={task.id}
-            className="flex items-center gap-2 min-h-[30px] px-2 border-2 rounded-md"
-          >
-            <input
-              type="checkbox"
-              checked={selectedTasks.includes(task.id)}
-              onChange={() => handleTaskSelection(task.id)}
-            />
-            <label>{task.text}</label>
-          </div>
-        ))} */}
+      {tasks.length > 0 ? (
+    tasks.map((task, index) => (
+      <div
+        key={index}
+        className="flex items-center gap-2 min-h-[30px] px-2 border-2 rounded-md"
+      >
+        <input
+          type="checkbox"
+          checked={selectedTasks.includes(index)}
+          onChange={() => handleTaskSelection(index)}
+        />
+        <label>{task}</label>
+      </div>
+    ))
+  ) : (
+    <p>No tasks available for Now</p>
+  )} 
       </div>
       <button
         className="w-full h-[30px] border-green-900 rounded bg-[#a5ffa5] hover:bg-[#66d466] mt-auto"

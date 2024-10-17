@@ -1,7 +1,8 @@
 "use client"
 import {FormEvent, useState, ChangeEvent} from "react"
 import { useRouter } from "next/navigation";
-import Axios from 'axios';
+import supabase from "@/lib/supabase";
+import { error } from "console";
 interface User{
     userName: string;
     email: string;
@@ -47,16 +48,30 @@ const Signup: React.FC =() =>{
         }
 
         try {
-            const response = await Axios.post("http://localhost:3000/api/users/signup", user);
-            console.log(response);
-            router.push("/login");
+            const{email, password, userName, gender} = user;
+            const { data: authData, error: authError } = await supabase.auth.signUp({ password, email });
+            if(authError){
+                console.log(authError);
+            }
+            else{
+                const { data, error } = await supabase.from("users").insert([{ email, userName, gender}]);
+                if(error){
+                    console.log(error);
+                }
+               else{
+                router.push("/login");
+               }
+            }
+            
             
         } 
-        catch (error:any) {
+        catch (error: any) {
             setBtnText("Sign Up");
-            setAlertMessage(error.response.data.message);
+            const alertMessage = error.response.data.message
+            if(alertMessage){
+                setAlertMessage(alertMessage);
+            }
             setAlertDiv(true);
-            console.error("Error occurred on signup page:", error.response?.data?.message);
         }
       };
     

@@ -1,5 +1,5 @@
 "use client"
-import react, { FormEvent, useState, ChangeEvent } from "react"
+import { FormEvent, useState, ChangeEvent } from "react"
 import supabase from "@/lib/supabase";
 import { useRouter } from "next/navigation";
 
@@ -36,7 +36,15 @@ const Login:React.FC = () =>{
            setAlertMessage(error.message);
            setBtnText("Log in");
         }
-        if(data?.user){
+        if(data?.user?.email){
+            const userEmail = data.user.email;
+            console.log("users email id"+ userEmail);
+            localStorage.setItem('userEmail', userEmail );
+            const session = supabase.auth.getSession();
+
+            if (session) {
+              document.cookie = `sb-access-token=${(await session).data.session?.access_token}; path=/; Secure; SameSite=Strict`;
+            }
         router.push('/dashboard');
         }
         // const userdata = await supabase.auth.getUser();
