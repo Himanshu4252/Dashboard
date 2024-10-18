@@ -23,6 +23,7 @@ const LineGraph: React.FC = () => {
     { name: '2020', uv: 2.66, pv: 2.66, amt: 2.66 },
     { name: '2021', uv: 3.17, pv: 3.17, amt: 3.17 },
     { name: '2022', uv: 3.73, pv: 3.73, amt: 3.73 },
+    { name: '2023', uv: 3.57, pv: 3.57, amt: 3.57 },
   ];
 
 

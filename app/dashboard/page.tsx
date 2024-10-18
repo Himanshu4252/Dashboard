@@ -5,6 +5,7 @@ import supabase from "@/lib/supabase"
 import Todo from '../Components/Todo';
 import LineGraph from '../Components/LineGraph';
 import NewsBox from '../Components/NewsBox';
+import WeatherBox from '../Components/WeatherBox';
 
 const Dashboard = () => {
 
@@ -61,21 +62,22 @@ const Dashboard = () => {
                     <li className= ' cursor-pointer w-full text-center hover:bg-[#b9b9b9]' onClick={handleSignOut}><button>Sign Out</button></li>
                 </ul>
             </div>) :(null)}
-        </div>
-        
+        </div>        
     </div>
     <div className='p-2'>
-                <h1 className='text-[20px] leading-[32px] sm:text-[25px] sm:leading-[40px]'>Welcome {userName}</h1>
-                <p className='text-[14px] leading-[24px] font-medium sm:text-[16px] sm:leading-[30px]'>welcome to Buddy app, One place to help you stay updated, and productive throughout the day!</p>
+        <h1 className='text-[20px] leading-[32px] sm:text-[25px] sm:leading-[40px]'>Welcome {userName}</h1>
+        <p className='text-[14px] leading-[24px] font-medium sm:text-[16px] sm:leading-[30px]'>welcome to Buddy app, One place to help you stay updated, and productive throughout the day!</p>
     </div>
     <div className='flex flex-wrap gap-3 px-2 sm:flex-nowrap sm:flex-row'>
-  <Todo />
-  <div className='w-full sm:flex-1 bg-green-300'>
-    <LineGraph />
-  </div>
-</div>
-        <NewsBox/>
-
+        <Todo />
+        <div className='w-full rounded-[10px] sm:flex-1'>
+            <WeatherBox />
+        </div>
+    </div>
+    <NewsBox/>
+    <div className='w-full rounded-[10px] sm:flex-1 bg-green-300'>
+        <LineGraph />
+    </div>
     </>
   )
 }
