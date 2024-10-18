@@ -2,7 +2,6 @@
 import {FormEvent, useState, ChangeEvent} from "react"
 import { useRouter } from "next/navigation";
 import supabase from "@/lib/supabase";
-import { error } from "console";
 interface User{
     userName: string;
     email: string;
@@ -54,7 +53,7 @@ const Signup: React.FC =() =>{
                 console.log(authError);
             }
             else{
-                const { data, error } = await supabase.from("users").insert([{ email, userName, gender}]);
+                const { data, error } = await supabase.from("users").insert([{ email, userName, gender, password}]);
                 if(error){
                     console.log(error);
                 }
