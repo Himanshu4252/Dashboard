@@ -37,15 +37,8 @@ const Dashboard = () => {
             setUserName(data.userName);
         }
     }
-    // const func =async()=>{
-    //     const userId = await supabase.auth.getUser();
-    //     const emailUser = (userId.data.user?.email);
-    //    if(emailUser){
-    //     setUserEmail(emailUser);
-    //    }
-    // }
+
     useEffect(() => {
-        // func();
         getUserName();
        }, []);
    
@@ -68,14 +61,14 @@ const Dashboard = () => {
         <h1 className='text-[20px] leading-[32px] sm:text-[25px] sm:leading-[40px]'>Welcome {userName}</h1>
         <p className='text-[14px] leading-[24px] font-medium sm:text-[16px] sm:leading-[30px]'>welcome to Buddy app, One place to help you stay updated, and productive throughout the day!</p>
     </div>
-    <div className='flex flex-wrap gap-3 px-2 sm:flex-nowrap sm:flex-row'>
+    <div className='flex flex-wrap gap-3 px-2 sm:flex-nowrap sm:flex-row justify-center'>
         <Todo />
         <div className='w-full rounded-[10px] sm:flex-1'>
             <WeatherBox />
         </div>
     </div>
-    <NewsBox/>
-    <div className='w-full rounded-[10px] sm:flex-1 bg-green-300'>
+    <NewsBox />
+    <div className='w-full rounded-[10px] sm:flex-1 bg-green-300 mt-2'>
         <LineGraph />
     </div>
     </>

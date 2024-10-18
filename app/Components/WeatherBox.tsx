@@ -82,7 +82,7 @@ const WeatherBox = () => {
         </div>
         <div className='border-r-2 border-gray-600 w-[50%] flex flex-col justify-around items-center '>
             <h1>Today</h1>
-            <p>{dayData.temp}</p>
+            <p>{dayData.temp} °C</p>
     
         </div>
         <div className=' w-[25%] flex flex-col justify-around items-center bg-gradient-to-b from-orange-300 to-sky-100'>
