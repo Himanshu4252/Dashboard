@@ -114,7 +114,7 @@ const Todo = () => {
     tasks.map((task, index) => (
       <div
         key={index}
-        className="flex items-center gap-2 min-h-[30px] px-2 border-2 rounded-md"
+        className="flex items-center gap-2 px-2 border-2 rounded-md"
       >
         <input
           type="checkbox"

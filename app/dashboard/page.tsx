@@ -6,6 +6,7 @@ import Todo from '../Components/Todo';
 import LineGraph from '../Components/LineGraph';
 import NewsBox from '../Components/NewsBox';
 import WeatherBox from '../Components/WeatherBox';
+import TechsUsed from '../Components/TechsUsed';
 
 const Dashboard = () => {
 
@@ -68,9 +69,14 @@ const Dashboard = () => {
         </div>
     </div>
     <NewsBox />
-    <div className='w-full rounded-[10px] sm:flex-1 bg-green-300 mt-2'>
-        <LineGraph />
-    </div>
+    <div className="flex flex-col sm:flex-row sm:justify-between w-full">
+        <div className="w-full rounded-[10px] sm:flex-1 bg-green-300 mt-2">
+            <LineGraph />
+        </div>
+        <div className="w-full sm:w-[300px] border-2 border-black rounded h-[400px] flex justify-center items-center mt-2 sm:mt-0">
+            <TechsUsed />
+        </div>
+</div>
     </>
   )
 }
