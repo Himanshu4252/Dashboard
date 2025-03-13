@@ -37,7 +37,7 @@ const NewsBox = () => {
               {article.description ? article.description.slice(0, 100) : 'No description available.'}
             </p>
             <a href={article.url} target='_blank' rel='noopener noreferrer' className='text-blue-500'>
-              Read more
+              Read more on source site...
             </a>
           </div>
         ))
