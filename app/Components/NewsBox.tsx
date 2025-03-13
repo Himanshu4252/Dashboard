@@ -12,7 +12,7 @@ const NewsBox = () => {
   useEffect(() => {
     const fetchNews = async () => {
       try {
-        const response = await fetch(''); //process.env.NEXT_PUBLIC_NEWS_API||
+        const response = await fetch(process.env.NEXT_PUBLIC_NEWS_API); //process.env.NEXT_PUBLIC_NEWS_API||
         const data = await response.json();
         setNews(data.articles || []); 
       } catch (error) {
