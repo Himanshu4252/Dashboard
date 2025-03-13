@@ -12,7 +12,11 @@ const NewsBox = () => {
   useEffect(() => {
     const fetchNews = async () => {
       try {
-        const response = await fetch(process.env.NEXT_PUBLIC_NEWS_API); //process.env.NEXT_PUBLIC_NEWS_API||
+        const API_URL = process.env.NEXT_PUBLIC_NEWS_API;
+        if(!API_URL){
+          throw new Error("API URL is not defined");
+        }
+        const response = await fetch(API_URL);
         const data = await response.json();
         setNews(data.articles || []); 
       } catch (error) {
