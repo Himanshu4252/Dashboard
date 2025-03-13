@@ -53,7 +53,7 @@ const Signup: React.FC =() =>{
                 console.log(authError);
             }
             else{
-                const { data, error } = await supabase.from("users").insert([{ email, userName, gender, password}]);
+                const { data, error } = await supabase.from("users").insert([{ email, userName, gender}]);
                 if(error){
                     console.log(error);
                 }
