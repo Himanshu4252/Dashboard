@@ -1,35 +1,23 @@
-import React, { useEffect, useState } from 'react';
-
-interface Article {
-    title: string;
-    description: string;
-    url: string;
-  }
+"use client"
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import type { RootState, AppDispatch } from '../store';
+import { fetchNews } from '../store/slices/newsSlice';
 
 const NewsBox = () => {
-  const [news, setNews] = useState<Article[]>([]);
+  const dispatch = useDispatch<AppDispatch>();
+
+  const { news, loading, error } = useSelector((state: RootState) => state.news);
 
   useEffect(() => {
-    const fetchNews = async () => {
-      try {
-        const API_URL = process.env.NEXT_PUBLIC_NEWS_API;
-        if(!API_URL){
-          throw new Error("API URL is not defined");
-        }
-        const response = await fetch(API_URL);
-        const data = await response.json();
-        setNews(data.articles || []); 
-      } catch (error) {
-        console.error('Error fetching news:', error);
-      }
-    };
-
-    fetchNews();
-  }, []);
+    //dispatch(fetchNews()); update the API call later
+  }, [dispatch]);
 
   return (
     <div className='w-full h-[500px] border-2 border-black rounded-2 flex flex-col p-2 gap-2 mt-4 overflow-y-auto'>
-      {news.length > 0 ? (
+      {loading && <p>Loading news...</p>}
+      {error && <p className='text-red-500'>Error: {error}</p>}
+      {!loading && !error && news.length > 0 && (
         news.map((article, index) => (
           <div key={index} className='border-b-2 pb-2'>
             <h3 className='font-bold'>{article.title}</h3>
@@ -41,11 +29,10 @@ const NewsBox = () => {
             </a>
           </div>
         ))
-      ) : (
-        <p>Loading news...</p>
       )}
     </div>
   );
 };
 
 export default NewsBox;
+
