@@ -103,7 +103,7 @@ const Dashboard = () => {
         <div className="w-full rounded-[10px] sm:flex-1 bg-green-300 mt-2">
           <LineGraph />
         </div>
-        <div className="w-full sm:w-[300px] border-2 border-black rounded h-[400px] flex justify-center items-center mt-2 sm:mt-0">
+        <div className="w-full sm:w-[300px] border-2 border-black rounded-[10px] h-[400px] flex justify-center items-center mt-[10px]">
           <TechsUsed />
         </div>
       </div>

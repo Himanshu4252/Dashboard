@@ -58,7 +58,9 @@ const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, per
 
 const TechsUsedChart: React.FC = () => {
   return (
-    <ResponsiveContainer width="100%" height={400}>
+		<div className="h-full w-full dark:bg-[#1e293b] rounded-[8px] flex flex-col items-center justify-evenly">
+		<p className="mt-2">Most used technologies in 2025</p>
+    <ResponsiveContainer width="100%" height={400} className='dark:text-white'>
       <PieChart>
         <Pie
           data={data}
@@ -77,6 +79,7 @@ const TechsUsedChart: React.FC = () => {
         <Tooltip />
       </PieChart>
     </ResponsiveContainer>
+    </div>
   );
 };
 

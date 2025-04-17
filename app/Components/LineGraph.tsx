@@ -29,7 +29,7 @@ const LineGraph: React.FC = () => {
 
 
   return (
-    <div className="h-[400px] w-full border-2 border-black flex flex-col  items-center justify-around rounded-[10px] px-2">
+    <div className="h-[400px] w-full border-2 border-black flex flex-col  items-center justify-around rounded-[10px] px-2 dark:bg-gradient-to-t dark:from-[#1e293b] dark:to-[#0f172a] ">
         <h2>India&apos;s GDP since 2010(USD Trillion) </h2>
         <div className="w-full h-[300px]">
         <ResponsiveContainer width="100%" height="100%">

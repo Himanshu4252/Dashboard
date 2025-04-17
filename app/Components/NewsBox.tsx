@@ -14,12 +14,12 @@ const NewsBox = () => {
   }, [dispatch]);
 
   return (
-    <div className='w-full h-[500px] border-2 border-black rounded-2 flex flex-col p-2 gap-2 mt-4 overflow-y-auto'>
+    <div className='w-full h-[500px] border-2 border-black rounded-[10px] flex flex-col p-2 gap-2 mt-4 overflow-y-auto dark:text-[#d1d5db] dark:border-[#6b7280] dark:bg-[#101215]'>
       {loading && <p>Loading news...</p>}
       {error && <p className='text-red-500'>Error: {error}</p>}
       {!loading && !error && news.length > 0 && (
         news.map((article, index) => (
-          <div key={index} className='border-b-2 pb-2'>
+          <div key={index} className='pb-3 dark:bg[#242424]'>
             <h3 className='font-bold'>{article.title}</h3>
             <p className='text-sm'>
               {article.description ? article.description.slice(0, 100) : 'No description available.'}
