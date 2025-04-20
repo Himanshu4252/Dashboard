@@ -79,7 +79,7 @@ const handleSearch = ()=>{
 
   return (
     <>
-      <div className='flex items-center justify-between h-[10vh] px-[15px]'>
+      <div className='flex items-center justify-between h-[10vh] px-[15px] relative z-[60] position-fixed right-0 top-0 left-0 '>
         <h1 className="text-3xl font-bold md:text-4xl lg:text-5xl dark:text-[#7400ff]">Buddy</h1>
         <div className='flex flex-row justify-between relative gap-2 items-center h-full'>
 		<div className='flex justify-between items-center max-w-[190px] relative'>
@@ -103,23 +103,24 @@ const handleSearch = ()=>{
 				</svg>	
 			</div>
 		</div>
-		{notificationPanel ? (<>
-			<div className="fixed inset-0 bg-black/30 backdrop-blur-sm z-20 top-[8%]" onClick={() => setNotificationPanel(false)} />
-			<div className='flex flex-col top-full absolute border-2 border-white h-[90vh] w-[320px] right-0 z-50 rounded-[6px] justify-center items-center bg-white dark:bg-[#101215]'>
-				<p>No Notification for Now, Come back Later!</p>
-			</div>
-			</>
-		): null	}
-         	 <div className='h-[40px] w-[40px] cursor-pointer dark:bg-[#7400ff]' onClick={handleMenuClick}>
+		 <div className='h-[40px] w-[40px] cursor-pointer dark:bg-[#7400ff]' onClick={handleMenuClick}>
             		<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width="100%" height="100%">
               		<path d="M0 96C0 78.3 14.3 64 32 64l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 128C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 288c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32L32 448c-17.7 0-32-14.3-32-32s14.3-32 32-32l384 0c17.7 0 32 14.3 32 32z" />
             		</svg>
-          	</div>
+          	</div>	
+        	</div>
+      		</div>
+		{notificationPanel ? (<>
+				<div className="inset-0 bg-black/30 backdrop-blur-sm fixed z-20" onClick={() => setNotificationPanel(false)} />
+				<div className='flex flex-col absolute border-2 border-white h-[90vh] w-[320px] right-0 z-50 rounded-[6px] justify-center items-center bg-white dark:bg-[#101215]'>
+					<p>No Notification for Now, Come back Later!</p>
+			</div>
+					</>
+		): null	}
+		{menu ? (<>
+			<div className="fixed inset-0 bg-black/30 backdrop-blur-sm z-20" onClick={() => setMenu(false)} />
 
-          	{menu ? (<>
-			<div className="fixed inset-0 bg-black/30 backdrop-blur-sm z-20 top-[8%]" onClick={() => setMenu(false)} />
-
-            	<div className='absolute top-full border-2 h-[220px] w-[250px] rounded-[10px] backdrop-blur-xl bg-white right-0 z-50 dark:bg-[#101215] flex flex-col pb-[2px]'>
+            	<div className='absolute border-2 h-[220px] w-[250px] rounded-[10px] backdrop-blur-xl bg-white right-0 z-50 dark:bg-[#101215] flex flex-col pb-[2px]'>
               		<ul className='flex flex-col w-full p-2'>
                 		<li onClick={handleHomeClick} className='cursor-pointer w-full text-center hover:bg-[#7a7a7a] h-[45px] flex items-center pl-2'>
                   			<button>Homepage</button>
@@ -134,14 +135,12 @@ const handleSearch = ()=>{
                   			<button>Sign Out</button>
                 		</li>
               		</ul>
-			<div className='mr-[10px] self-end'> <p>Version 1.1.1 </p></div>
+			<div className='mr-[10px] self-end'> <p>Version 1.1.2 </p></div>
             	</div>
           	</>
 		) : null}
-        	</div>
-      	</div>
-	{searchBar ? (<>
-			<div className="fixed inset-0 backdrop-blur-sm z-20 top-[8%]" onClick={() => setSearchBar(false)} />
+		{searchBar ? (<>
+			<div className="fixed inset-0 backdrop-blur-sm z-20 bg-black/30" onClick={() => setSearchBar(false)} />
 			<SearchPanel />
 	</>) : null}
       <div className='p-2'>

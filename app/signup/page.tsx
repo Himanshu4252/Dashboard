@@ -83,7 +83,7 @@ const Signup: React.FC =() =>{
                 <div className="flex flex-col items-center justify-around w-[88%] h-[65%]">
                     <input placeholder="Your unique userName" name="userName" className="w-full h-[30px] px-[5px] rounded-[5px] outline-none border border-black" value={user.userName} onChange={handleInputChange} required></input>
                     <input placeholder="Email@example.com" name="email" type="email" className="w-full h-[30px] px-[5px] rounded-[5px] outline-none border border-black" value={user.email} onChange={handleInputChange} required></input>
-                    <div className="h-[30px] w-full text-[14px] flex justify-between items-center">
+                    <div className="h-[30px] w-full text-[14px] flex justify-around items-center">
                     <label >Gender</label>
                     <div className="flex items-center gap-[3px]">
                     <input id="male" type="radio" name="gender" value="male" onChange={handleInputChange} required />
@@ -93,13 +93,7 @@ const Signup: React.FC =() =>{
                     <div className="flex items-center gap-[3px]">
                     <input id="female" type="radio" name="gender" value="female" onChange={handleInputChange} required/>
                     <label htmlFor="gender">Female</label>                        
-                    </div>
-
-                    <div className="flex items-center gap-[3px]">
-                    <input id="other" type="radio" name="gender" value="other" onChange={handleInputChange}  required/>
-                    <label htmlFor="gender">Other</label>                        
-                    </div>
-
+                    </div>               
                     </div>
 
                     <input placeholder="Password (6-8 characters)" name="password" type="password" className="w-full h-[30px] px-[5px] rounded-[5px] outline-none border border-black" value={user.password} onChange={handleInputChange} required></input>

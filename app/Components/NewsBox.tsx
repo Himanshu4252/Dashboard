@@ -10,7 +10,7 @@ const NewsBox = () => {
   const { news, loading, error } = useSelector((state: RootState) => state.news);
 
   useEffect(() => {
-      dispatch(fetchNews()); // update the API call later
+      //dispatch(fetchNews()); // update the API call later
   }, [dispatch]);
 
   return (
