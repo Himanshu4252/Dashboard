@@ -119,7 +119,7 @@ const handleSearch = ()=>{
           	{menu ? (<>
 			<div className="fixed inset-0 bg-black/30 backdrop-blur-sm z-20 top-[8%]" onClick={() => setMenu(false)} />
 
-            	<div className='absolute top-full border-2 h-[200px] w-[250px] rounded-[10px] backdrop-blur-xl bg-white right-0 z-50 dark:bg-[#101215]'>
+            	<div className='absolute top-full border-2 h-[220px] w-[250px] rounded-[10px] backdrop-blur-xl bg-white right-0 z-50 dark:bg-[#101215] flex flex-col pb-[2px]'>
               		<ul className='flex flex-col w-full p-2'>
                 		<li onClick={handleHomeClick} className='cursor-pointer w-full text-center hover:bg-[#7a7a7a] h-[45px] flex items-center pl-2'>
                   			<button>Homepage</button>
@@ -134,6 +134,7 @@ const handleSearch = ()=>{
                   			<button>Sign Out</button>
                 		</li>
               		</ul>
+			<div className='mr-[10px] self-end'> <p>Version 1.1.1 </p></div>
             	</div>
           	</>
 		) : null}
