@@ -20,7 +20,7 @@ const WeatherBox = () => {
 
    // Fetch weather data when the component mounts
   useEffect(() => {
-   // dispatch(fetchWeather()); //change before git push
+    dispatch(fetchWeather()); //change before git push
   }, [dispatch]);
 
   // Handle loading and error states
