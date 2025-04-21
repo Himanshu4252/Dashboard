@@ -64,8 +64,10 @@ const SearchPanel = () => {
 						<p className='text-sm text-gray-500'>search and connect!</p>
 					) : results.length > 0 ? (
 						results.map((user) => (
-							<div key={user.id} className='p-2 bg-white dark:bg-[#2c2c2c] rounded-md mb-1'>
+							<div key={user.id} className='p-2 bg-white dark:bg-[#2c2c2c] rounded-md mb-1 flex justify-between items-center px-[30px]'>
 								{user.userName}
+								<button className='border-2 dark:border-[#5d00cc] dark:bg-[#3f0388] h-[35px] w-[110px] font-bold dark:hover:bg-[#3b0082] dark:hover:border-[#3f0388] dark:text-white text-white rounded-[8px] bg-[#7b18f4] hover:bg-[#6717ca] hover:border-[#5400b9] border-[#7312e8]'>Connect</button>
+
 							</div>
 						))
 					) : (

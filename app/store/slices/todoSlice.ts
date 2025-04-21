@@ -16,7 +16,7 @@ interface UserData {
   userName: string;
   gender: string;
   email: string;
-  tasks: string[];
+  tasks: {task: string; deadline:string}[];
   darkMode: boolean;
 }
 
@@ -58,7 +58,6 @@ export const fetchUser = createAsyncThunk(
     }
   }
 );
-
 // Add a task
 export const addTask = createAsyncThunk(
   'todo/addTask',
@@ -66,7 +65,18 @@ export const addTask = createAsyncThunk(
     try {
       const state = getState() as { todo: TodoState };
       const currentTasks = state.todo.user?.tasks || [];
-      const updatedTasks = [...currentTasks, task];
+
+	const rawTime = state.todo.deadline;
+	const[hours, minutes] = rawTime.split(':');
+	const today = new Date();	
+	today.setHours(parseInt(hours, 10));
+	today.setMinutes(parseInt(minutes, 10));
+	today.setSeconds(0);
+	today.setMilliseconds(0);
+	const datePart = today.toISOString().split('T')[0];
+	const timePart = today.toTimeString().split(' ')[0].replace(/:/g, '');
+	const fullDeadline = `${datePart} ${timePart}`;
+	const updatedTasks = [...currentTasks, {task, deadline:fullDeadline}];
 
       const { error } = await supabase
         .from('users')
@@ -152,6 +162,7 @@ const todoSlice = createSlice({
           state.user.tasks = action.payload;
         }
         state.input = '';
+	state.deadline='';
       })
       .addCase(addTask.rejected, (state, action) => {
         state.error = action.payload as string;

@@ -112,7 +112,7 @@ const handleSearch = ()=>{
       		</div>
 		{notificationPanel ? (<>
 				<div className="inset-0 bg-black/30 backdrop-blur-sm fixed z-20" onClick={() => setNotificationPanel(false)} />
-				<div className='flex flex-col absolute border-2 border-white h-[90vh] w-[320px] right-0 z-50 rounded-[6px] justify-center items-center bg-white dark:bg-[#101215]'>
+				<div className='flex flex-col absolute border-2 border-white h-[90vh] w-[280px] right-0 z-50 rounded-[6px] justify-center items-center bg-white dark:bg-[#101215]'>
 					<p>No Notification for Now, Come back Later!</p>
 			</div>
 					</>
