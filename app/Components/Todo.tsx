@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useState, FormEvent, ChangeEvent } from 'react';
+import { setDeadline as setDeadlineRedux } from '../store/slices/todoSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import type { RootState, AppDispatch } from '../store';
 import { fetchUser, addTask, completeTasks, toggleTaskSelection } from '../store/slices/todoSlice';
@@ -30,15 +31,17 @@ const TodoList = () => {
     setInput(e.target.value);
   };
 
-  const handleDeadlineChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setDeadline(e.target.value);
-  };
-
+	const handleDeadlineChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const value = e.target.value;
+  setDeadline(value);
+  dispatch(setDeadlineRedux(value)); // 💥 Sync it into Redux!
+};
   // 📝 Submit new task
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (user?.email && input.trim()) {
-      dispatch(addTask({ email: user.email, task: input.trim() }));
+    if (user?.email && input.trim() && deadline.trim()) {
+	dispatch(addTask({ email: user.email, task: input.trim() }));
+
       setInput('');
       setDeadline('');
     }
@@ -90,20 +93,69 @@ const TodoList = () => {
         ) : error ? (
           <p className="text-red-500">{error}</p>
         ) : user?.tasks && user.tasks.length > 0 ? (
-          user.tasks.map((task, index) => (
-            <div key={index} className="flex items-center gap-2 px-2 border-2 rounded-md dark:bg-[#242424] dark:border-1 dark:border-black">
-              <input
-                type="checkbox"
-                checked={selectedTasks.includes(index)}
-                onChange={() => handleCheckboxToggle(index)}
-              />
-              <p className="dark:text-gray-300">{task}</p>
-              <div className="border-1 border-black min-h-[30px] min-w-[80px] ml-auto flex items-center justify-center">
-                <p className="text-red-500">{deadline}</p>
-              </div>
-            </div>
-          ))
-        ) : (
+          [...user.tasks]
+  .sort((a, b) => {
+    const parseDeadline = (task: any) => {
+      const datePart = task.deadline?.split(' ')[0];
+      const timePart = task.deadline?.split(' ')[1];
+      if (!datePart || !timePart) return Infinity;
+
+      const formattedTime = `${timePart.slice(0, 2)}:${timePart.slice(2, 4)}:00`;
+      const deadline = new Date(`${datePart}T${formattedTime}`);
+
+      const now = new Date();
+      if (deadline < now) deadline.setDate(deadline.getDate() + 1);
+
+      return deadline.getTime();
+    };
+
+    return parseDeadline(a) - parseDeadline(b);
+  })
+  .map((taskWithDeadline, index) => {
+
+		const timeChunk = taskWithDeadline.deadline?.split(' ')[1]; // e.g., '121700'
+		const deadlineTimeStr = taskWithDeadline.deadline?.split(' ')[1]; // e.g., '121700'
+const deadlineDateStr = taskWithDeadline.deadline?.split(' ')[0]; // e.g., '2025-04-21'
+
+// Default time color
+let timeColor = 'text-green-500';
+
+let displayTime = '??:??';
+
+if (deadlineTimeStr && deadlineDateStr) {
+  const formattedTime = `${deadlineTimeStr.slice(0, 2)}:${deadlineTimeStr.slice(2, 4)}`;
+  displayTime = formattedTime;
+
+  // Combine date and time into a Date object
+  const taskDeadline = new Date(`${deadlineDateStr}T${formattedTime}:00`);
+  const now = new Date();
+	if (taskDeadline.getTime() < now.getTime()) {
+  taskDeadline.setDate(taskDeadline.getDate() + 1);
+	}
+  const diffMs = taskDeadline.getTime() - now.getTime();
+  const diffHours = diffMs / (1000 * 60 * 60); // in hours
+
+  if (diffHours < 1) timeColor = 'text-red-500';
+  else if (diffHours < 4) timeColor = 'text-yellow-400';
+}
+
+
+		return (
+            		<div key={index} className="flex items-center gap-2 px-2 border-2 rounded-md dark:bg-[#242424] dark:border-1 dark:border-black">
+             			 <input
+               			 type="checkbox"
+               			 checked={selectedTasks.includes(index)}
+               			 onChange={() => handleCheckboxToggle(index)}
+              				/>
+             			 <p className="dark:text-gray-300">{taskWithDeadline.task}</p>
+				<div className="border-1 border-black min-h-[30px] min-w-[80px] ml-auto flex items-center justify-center">
+ 					 <p className={`${timeColor}`}>{displayTime}</p>
+				</div>
+
+            		</div>
+         		 );
+	 		})
+        		) : (
           <p>No tasks available for now.</p>
         )}
       </div>
