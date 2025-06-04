@@ -57,23 +57,68 @@ const Login:React.FC = () =>{
     }
     }
     return (
-        <div className="w-full h-screen flex items-center justify-center relative">
-            {alertDiv ?(<div className="h-[10vh] flex items-center justify-center bg-red-300 self-start text-red-600 absolute border-2 border-red-600 w-[90vw]">{alertMessage}</div>) : (null)}
-            <form>
-            <div className="border-2 border-black rounded-[15px] h-[280px] w-[300px] flex flex-col items-center justify-around">
-                <h1 className="text-[22px] font-bold">Log In</h1>
-                <div className="flex flex-col items-center justify-around w-[88%] h-[40%]">
-                    <input placeholder="email@ex.xom" name="email" className="w-full h-[30px] px-[5px] rounded-[5px] outline-none border border-black" value={user.email} onChange={handleInputChange} required></input>
+         <div className="w-full h-screen overflow-hidden relative flex items-center justify-center">
+  {/* Background */}
+  <div
+    className="absolute inset-0 -z-10 bg-center bg-no-repeat bg-cover pointer-events-none"
+    style={{
+      backgroundImage: "url('/BG.svg')",
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      backgroundRepeat: 'no-repeat',
+    }}
+  />
 
-                    <input placeholder="Password" name="password" type="password" className="w-full h-[30px] px-[5px] rounded-[5px] outline-none border border-black" value={user.password} onChange={handleInputChange} required></input>
-                </div>
-                <div className="flex flex-col items-center justify-between w-full">
-                <button className="border-2 border-green-800 h-[30px] w-[90%] rounded-[8px] bg-[#98dd98] hover:bg-[#7fc77a] font-bold" type="submit" onClick={onLogin}>{BtnText}</button>
-                <a href="/signup">Do not have an account</a>
-                </div>
-            </div>
-            </form>
-        </div>
-    )
+  {/* Alert Box */}
+  {alertDiv && (
+    <div className="absolute top-4 left-1/2 -translate-x-1/2 bg-red-200 text-red-800 border border-red-600 px-4 py-2 rounded shadow-lg z-10 max-w-[90%]">
+      {alertMessage}
+    </div>
+  )}
+
+  {/* Login Form Container with glass blur */}
+  <div className="rounded-2xl p-1 w-full max-w-[360px] border border-white/30 bg-white/10 backdrop-blur-md shadow-xl">
+    <form
+      onSubmit={onLogin}
+      className="max-h-[90vh] overflow-y-auto rounded-2xl shadow-xl w-full p-5 flex flex-col items-center gap-4"
+    >
+      <h1 className="text-[22px] font-bold text-black">Log In</h1>
+
+      <input
+        placeholder="email@ex.xom"
+        name="email"
+        type="email"
+        className="w-full h-[35px] px-3 rounded-md border border-black outline-none bg-transparent placeholder-gray-800 text-black text-base"
+        value={user.email}
+        onChange={handleInputChange}
+        required
+      />
+
+      <input
+        placeholder="Password"
+        name="password"
+        type="password"
+        className="w-full h-[35px] px-3 rounded-md border border-black outline-none bg-transparent placeholder-gray-800 text-black text-base"
+        value={user.password}
+        onChange={handleInputChange}
+        required
+      />
+
+      <button
+	 className="border border-black h-[35px] w-full rounded-md bg-[#140aad] hover:bg-[#08025e] font-bold transition-all duration-200 text-white"       
+        type="submit"
+      >
+        {BtnText}
+      </button>
+
+      <a
+        href="/signup"
+        className="text-sm text-black font-bold hover:underline"
+      >
+        Do not have an account?
+      </a>
+    </form>
+  </div>
+</div>   )
 }
 export default Login;

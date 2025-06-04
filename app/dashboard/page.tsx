@@ -135,7 +135,7 @@ const handleSearch = ()=>{
                   			<button>Sign Out</button>
                 		</li>
               		</ul>
-			<div className='mr-[10px] self-end'> <p>Version 1.1.2 </p></div>
+			<div className='mr-[10px] self-end'> <p>Version 2.0.0 </p></div>
             	</div>
           	</>
 		) : null}
